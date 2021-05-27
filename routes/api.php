@@ -61,7 +61,7 @@ Route::get('bill/{id}', [BillController::class, 'show']);
 Route::post('bill', [BillController::class, 'store']);
 Route::put('bill/{id}', [BillController::class, 'update']);
 Route::delete('bill/{id}', [BillController::class, 'destroy']);
-Route::delete('bill/delete', [BillController::class, 'deleteAll']);
+Route::delete('bill/delete/all', [BillController::class, 'deleteAll']);
 
 /*---Bill-Detail---*/
 // Route::get('product', [BillDetailController::class, 'index']);
@@ -69,4 +69,4 @@ Route::get('bill_detail/bill/{billid}', [BillDetailController::class, 'getDetail
 Route::post('bill_detail', [BillDetailController::class, 'store']);
 Route::put('bill_detail/{id}', [BillDetailController::class, 'update']);
 Route::delete('bill_detail/{id}', [BillDetailController::class, 'destroy']);
-Route::delete('bill_detail/delete', [BillDetailController::class, 'deleteAll']);
+Route::delete('bill_detail/delete/all', [BillDetailController::class, 'deleteAll']);
