@@ -111,4 +111,11 @@ class BillDetailController extends Controller
 
         return response()->json(['status' => 1, 'data' => null], 404);
     }
+     public function deleteAll()
+    {
+        $bill_detail = BillDetailModel::all();
+        $bill_detail->delete();
+
+        return response()->json(['status' => 1, 'data' => null], 404);
+    }
 }
