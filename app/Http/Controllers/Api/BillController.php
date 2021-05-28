@@ -123,12 +123,6 @@ class BillController extends Controller
 
         return response()->json(['status' => 1, 'data' => null], 404);
     }
-    public function deleteAll()
-    {
-        $bill = BillModel::all();
-        $bill->delete();
-
-        return response()->json(['status' => 1, 'data' => null], 404);
-    }
+   
 
 }
