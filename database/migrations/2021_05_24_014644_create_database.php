@@ -16,7 +16,7 @@ class CreateDatabase extends Migration
     {
         $date = new DateTime();
         $unixTimestamp = $date->getTimestamp();
-        
+
         //Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -30,51 +30,23 @@ class CreateDatabase extends Migration
         });
         DB::table('users')->insert([
             [
+                'username' => 'admin',
+                'password' => '123',
+                'name' => 'ADMIN',
+                'email' => 'admin@pizza.com',
+                'address' => '123abc',
+                'phone' => '0123456789',
+                'role' => 'admin',
+            ],
+            [
                 'username' => 'thiendum',
-                'password' => '123456',
+                'password' => '123',
                 'name' => 'Thien',
                 'email' => 'thien@pizza.com',
-                'address' => '123abc',
-                'phone' => '0123456789',
-                'role' => 'admin',
-            ],
-            [
-                'username' => 'admin1',
-                'password' => '123456',
-                'name' => 'ADMIN 1',
-                'email' => 'admin1@pizza.com',
-                'address' => '123abc',
-                'phone' => '0123456789',
-                'role' => 'admin',
-            ],
-            [
-                'username' => 'admin2',
-                'password' => '123456',
-                'name' => 'ADMIN 2',
-                'email' => 'admin2@pizza.com',
-                'address' => '123abc',
-                'phone' => '0123456789',
-                'role' => 'admin',
-            ],
-            [
-                'username' => 'admin3',
-                'password' => '123456',
-                'name' => 'ADMIN 3',
-                'email' => 'admin3@pizza.com',
-                'address' => '123abc',
-                'phone' => '0123456789',
-                'role' => 'admin',
-            ],
-            [
-                'username' => 'test',
-                'password' => '123',
-                'name' => 'TEST',
-                'email' => 'test@pizza.com',
-                'address' => 'test123',
+                'address' => '123 abc xyz',
                 'phone' => '0123456789',
                 'role' => 'customer',
-            ],    
-
+            ],
         ]);
 
         //Types
@@ -89,8 +61,8 @@ class CreateDatabase extends Migration
             [
                 'name' => 'cake',
             ],
-        ]); 
-        
+        ]);
+
         //Products
         Schema::create('products', function (Blueprint $table) {
             $table->id();
@@ -102,8 +74,8 @@ class CreateDatabase extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('type_id')->references('id')->on('types');
         });
-        
-        
+
+
         //Bills
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
@@ -115,7 +87,7 @@ class CreateDatabase extends Migration
         Schema::table('bills', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
-        
+
 
         //DetailBill
         Schema::create('detail_bill', function (Blueprint $table) {
@@ -143,6 +115,6 @@ class CreateDatabase extends Migration
         Schema::dropIfExists('types');
         Schema::dropIfExists('bills');
         Schema::dropIfExists('detail_bill');
-        
+
     }
 }
