@@ -122,7 +122,7 @@ class ProductController extends Controller
         }
         $product->update($request->all());
 
-        return response()->json(['status' => 1,  ProductResource::collection(ProductModel::where(['id' => $product->id])->get())], 200);
+        return response()->json(['status' => 1, 'data' =>  ProductResource::collection(ProductModel::where(['id' => $id])->get())], 200);
     }
 
     /**
