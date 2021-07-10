@@ -28,7 +28,7 @@ class BillController extends Controller
 
     public function getBillByUserId($userid)
     {
-        $bill = BillModel::where(['user_id' => $userid])->orWhere('note','<>','created')->get()->sortDesc();
+        $bill = BillModel::where(['user_id' => $userid],['note','<>','created'])->get()->sortDesc();
 
         return response()->json(['status' => 1, 'data' => BillResource::collection($bill)]);
     }
