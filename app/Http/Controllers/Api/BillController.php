@@ -28,7 +28,7 @@ class BillController extends Controller
 
     public function getBillByUserId($userid)
     {
-        $bill = BillModel::where(['user_id' => $userid])->get()->sortDesc();
+        $bill = BillModel::where(['user_id' => $userid])->orWhere(['note','<>','created'])->get()->sortDesc();
 
         return response()->json(['status' => 1, 'data' => BillResource::collection($bill)]);
     }
@@ -39,7 +39,7 @@ class BillController extends Controller
 
         return response()->json(['status' => 1, 'data' => BillResource::collection($bill)]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -58,7 +58,7 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $bill = BillModel::create($request->all());
         return response()->json(['status' => 1, 'data' => BillResource::collection(BillModel::where(['id' => $bill->id])->get())], 201);
     }
@@ -123,6 +123,6 @@ class BillController extends Controller
 
         return response()->json(['status' => 1, 'data' => null], 404);
     }
-   
+
 
 }
