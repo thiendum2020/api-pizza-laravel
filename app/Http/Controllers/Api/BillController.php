@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 
 use App\Models\BillModel;
 use App\Http\Resources\BillResource;
+use App\Models\UserModel;
 
 class BillController extends Controller
 {
@@ -24,16 +25,21 @@ class BillController extends Controller
     {
         $bill = BillModel::all()->sortDesc();
         if(is_null($bill)){
-            return response()->json(['status' => 0, 'msg'=>'Bill not found!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
 
     public function getBillByUserId($userid)
     {
+         $user = UserModel::where(['id' => $id])->first();
+        if(is_null($user)){
+            return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
+        }
+
         $bill = BillModel::where(['user_id' => $userid])->where('note','<>','created')->get()->sortDesc();
         if(is_null($bill)){
-            return response()->json(['status' => 0, 'msg'=>'Bill not found!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
