@@ -68,7 +68,7 @@ class UserController extends Controller
         if(is_null($user)){
             return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
         }
-        return response()->json(['status' => 1, 'msg'=>'success', 'data'=>$user->toArray()], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data'=>[$user->toArray()]], 201);
     }
 
     /**
