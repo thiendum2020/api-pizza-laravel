@@ -25,7 +25,7 @@ class BillController extends Controller
     {
         $bill = BillModel::all()->sortDesc();
         if(count($bill)==0){
-            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 204);
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 200);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
@@ -39,7 +39,7 @@ class BillController extends Controller
 
         $bill = BillModel::where(['user_id' => $userid])->where('note','<>','created')->get()->sortDesc();
         if(count($bill)==0){
-            return response()->json(['status' => 2, 'msg'=>'Bill is empty!', 'data'=>null], 204);
+            return response()->json(['status' => 2, 'msg'=>'Bill is empty!', 'data'=>null], 200);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
@@ -48,7 +48,7 @@ class BillController extends Controller
     {
         $bill = BillModel::where(['note' => $note])->get()->sortDesc();
         if(count($bill)==0){
-            return response()->json(['status' => 2, 'msg'=>'Bill is empty!', 'data'=>null], 204);
+            return response()->json(['status' => 2, 'msg'=>'Bill is empty!', 'data'=>null], 200);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
