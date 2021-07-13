@@ -23,21 +23,26 @@ class BillController extends Controller
     public function index()
     {
         $bill = BillModel::all()->sortDesc();
-        return response()->json(['status' => 1, 'data' => BillResource::collection($bill)]);
+        if(is_null($bill)){
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
+        }
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
 
     public function getBillByUserId($userid)
     {
         $bill = BillModel::where(['user_id' => $userid])->where('note','<>','created')->get()->sortDesc();
-
-        return response()->json(['status' => 1, 'data' => BillResource::collection($bill)]);
+        if(is_null($bill)){
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
+        }
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
 
     public function getBillByNote($note)
     {
         $bill = BillModel::where(['note' => $note])->get()->sortDesc();
 
-        return response()->json(['status' => 1, 'data' => BillResource::collection($bill)]);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)]);
     }
 
     /**
@@ -60,7 +65,7 @@ class BillController extends Controller
     {
 
         $bill = BillModel::create($request->all());
-        return response()->json(['status' => 1, 'data' => BillResource::collection(BillModel::where(['id' => $bill->id])->get())], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection(BillModel::where(['id' => $bill->id])->get())], 201);
     }
 
     /**
@@ -71,11 +76,11 @@ class BillController extends Controller
      */
     public function show($id)
     {
-        $bill = BillModel::where(['id' => $id])->get();
+        $bill = BillModel::where(['id' => $id])->first();
         if(is_null($bill)){
             return response()->json(["message"=>"Record not found!"], 404);
         }
-        return response()->json(['status' => 1, 'data' => BillResource::collection($bill)], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)], 201);
     }
 
     /**
@@ -100,11 +105,11 @@ class BillController extends Controller
     {
         $bill = BillModel::where(['id' => $id]);
         if(is_null($bill)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
         }
         $bill->update($request->all());
 
-        return response()->json(['status' => 1, 'data' => BillResource::collection(BillModel::where(['id' => $id])->get())], 200);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection(BillModel::where(['id' => $id])->get())], 200);
     }
 
     /**
@@ -117,11 +122,11 @@ class BillController extends Controller
     {
         $bill = BillModel::where(['id' => $id])->first();
         if(is_null($bill)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
         }
         $bill->delete();
 
-        return response()->json(['status' => 1, 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 404);
     }
 
 
