@@ -50,10 +50,10 @@ class UserController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()){
-            return response()->json(['status'=>0, 'msg'=>$validator->errors(), 'data' => null], 400);
+            return response()->json(['status'=>2, 'msg'=>$validator->errors(), 'data' => null], 400);
         }
         $user = UserModel::create($request->all());
-        return response()->json(['status' => 1, 'data' => UserResource::collection(UserModel::where(['id' => $user->id])->get())], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => UserResource::collection(UserModel::where(['id' => $user->id])->get())], 201);
     }
 
     /**
@@ -66,9 +66,9 @@ class UserController extends Controller
     {
         $user = UserModel::where(['id' => $id])->get();
         if(is_null($user)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
         }
-        return response()->json(['status' => 1, 'data' => $user], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data'=>$user->toArray()], 201);
     }
 
     /**
@@ -93,7 +93,7 @@ class UserController extends Controller
     {
         $user = UserModel::where(['id' => $id])->first();
          if(is_null($user)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
         }
         $user->update($request->all());
 
@@ -110,10 +110,10 @@ class UserController extends Controller
     {
         $user = UserModel::where('id', $id)->first();
         if(is_null($user)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
         }else{
             $user->delete();
         }
-        return response()->json(['status' => 1, 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 204);
     }
 }
