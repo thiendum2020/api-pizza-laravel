@@ -13,11 +13,11 @@ class LoginController extends Controller
         $user = UserModel::where(['username' => $request->get('username')])->first();
 
         if($user == null)
-            return response()->json(['status' => 0, 'msg' => 'Username does not exist','data'=>null], 404);
+            return response()->json(['status' => 0, 'msg' => 'Username does not exist','data'=>null]);
 
         else {
             if($user->password != $request->get('password'))
-                return response()->json(['status' => 2, 'msg' => 'Password is incorrect','data'=>null], 400);
+                return response()->json(['status' => 2, 'msg' => 'Password is incorrect','data'=>null]);
             else
                 return response()->json(['status' => 1, 'msg'=>'success', 'data' => $user]);
         }
