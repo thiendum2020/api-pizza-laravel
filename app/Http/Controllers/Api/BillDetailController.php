@@ -36,7 +36,7 @@ class BillDetailController extends Controller
 
         $bill_detail = BillDetailModel::where(['bill_id' => $billid])->get()->sortDesc();
         if(count($bill_detail)==0){
-            return response()->json(['status' => 2, 'msg'=>'Bill details is empty!', 'data'=>null], 200);
+            return response()->json(['status' => 2, 'msg'=>'Bill details is empty!', 'data'=>['']], 200);
         }
 
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillDetailResource::collection($bill_detail)], 200);
