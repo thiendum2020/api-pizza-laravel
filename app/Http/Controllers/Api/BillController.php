@@ -103,7 +103,7 @@ class BillController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bill = BillModel::where(['id' => $id]);
+        $bill = BillModel::where(['id' => $id])->first();
         if(is_null($bill)){
             return response()->json(['status' => 0, 'msg'=>'Bill is empty!', 'data'=>null], 404);
         }
