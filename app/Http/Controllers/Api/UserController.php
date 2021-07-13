@@ -95,17 +95,7 @@ class UserController extends Controller
         if(is_null($user)){
             return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
         }
-        $rules = [
-            'email' => 'required',
-            'password' => 'required',
-            'phone' => 'required',
-            'address' => 'required'
 
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails()){
-            return response()->json(['status'=>2, 'msg'=>$validator->errors(), 'data' => null], 400);
-        }
         $user->update($request->all());
 
         return response()->json(['status' => 1, 'msg'=>'success', UserResource::collection(UserModel::where(['id' => $id])->get())], 200);
