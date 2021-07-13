@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = UserModel::where(['id' => $id])->get();
+        $user = UserModel::where(['id' => $id])->first();
         if(is_null($user)){
             return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
         }
@@ -97,7 +97,7 @@ class UserController extends Controller
         }
         $user->update($request->all());
 
-        return response()->json(['status' => 1, UserResource::collection(UserModel::where(['id' => $id])->get())], 200);
+        return response()->json(['status' => 1, 'msg'=>'success', UserResource::collection(UserModel::where(['id' => $id])->get())], 200);
     }
 
     /**
@@ -114,6 +114,6 @@ class UserController extends Controller
         }else{
             $user->delete();
         }
-        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 204);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 200);
     }
 }
