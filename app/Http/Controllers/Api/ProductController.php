@@ -111,7 +111,7 @@ class ProductController extends Controller
         if(is_null($product)){
             return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
-        return response()->json(['status' => 1, 'msg'=>'success', 'data' => $product->toArray()], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => [$product->toArray()]], 201);
     }
 
     /**
