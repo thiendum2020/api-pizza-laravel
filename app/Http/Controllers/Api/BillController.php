@@ -88,7 +88,7 @@ class BillController extends Controller
         if(is_null($bill)){
             return response()->json(['status' => 0, 'msg'=>'Bill not found!', 'data'=>null], 404);
         }
-        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillResource::collection($bill)], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => $bill->toArray()], 201);
     }
 
     /**
