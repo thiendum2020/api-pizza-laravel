@@ -19,7 +19,7 @@ class LoginController extends Controller
             if($user->password != $request->get('password'))
                 return response()->json(['status' => 2, 'msg' => 'Password is incorrect','data'=>null], 400);
             else
-                return response()->json(['status' => 0, 'msg'=>'success', 'data' => $user]);
+                return response()->json(['status' => 1, 'msg'=>'success', 'data' => $user]);
         }
     }
 }
