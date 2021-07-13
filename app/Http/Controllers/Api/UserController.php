@@ -18,7 +18,10 @@ class UserController extends Controller
     public function index()
     {
         $user = UserModel::all()->sortDesc();
-        return response()->json(['status' => 1, 'msg' => 'success','data' => UserResource::collection($user)]);
+        if(is_null($user)){
+            return response()->json(['msg'=>'Record not found!'], 404);
+        }
+        return response()->json(['status' => 1, 'msg' => 'success','data' => UserResource::collection($user)], 200);
     }
 
     /**
@@ -39,16 +42,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $rules = [
-        //     'username' => 'required|min:1',
-        //     'password' => 'required|min:1',
-        //     'phone' => 'required|max:11',
+        $rules = [
+            'username' => 'required',
+            'password' => 'required',
+            'phone' => 'required',
 
-        // ];
-        // $validator = Validator::make($request->all(), $rules);
-        // if($validator->fails()){
-        //     return response()->json($validator->errors(), 400);
-        // }
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()){
+            return response()->json(['status'=>0, 'msg'=>$validator->errors(), 'data' => null], 400);
+        }
         $user = UserModel::create($request->all());
         return response()->json(['status' => 1, 'data' => UserResource::collection(UserModel::where(['id' => $user->id])->get())], 201);
     }
