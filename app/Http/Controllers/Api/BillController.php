@@ -32,7 +32,7 @@ class BillController extends Controller
 
     public function getBillByUserId($userid)
     {
-         $user = UserModel::where(['id' => $id])->first();
+         $user = UserModel::where(['id' => $userid])->first();
         if(is_null($user)){
             return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
         }
