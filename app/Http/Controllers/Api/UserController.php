@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $user = UserModel::all()->sortDesc();
         if(is_null($user)){
-            return response()->json(['msg'=>'Record not found!'], 404);
+            return response()->json(['status' => 0, 'msg'=>'Record not found!'], 404);
         }
         return response()->json(['status' => 1, 'msg' => 'success','data' => UserResource::collection($user)], 200);
     }
