@@ -80,9 +80,21 @@ class ProductController extends Controller
         ]);
         $img_link = json_decode($imgur_response->getBody())->data->link;
 
+        $rules = [
+            'name' => 'required',
+            'price' => 'required|min:1',
+            'type_id' => 'required',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()){
+            return response()->json(['status'=>2, 'msg'=>$validator->errors(), 'data' => null], 400);
+        }
+
         ProductModel::where(['id' => $product->id])->update(['image' => $img_link]);
 
-        return response()->json(['status' => 1, 'data' => ProductResource::collection(ProductModel::where(['id' => $product->id])->get())], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => ProductResource::collection(ProductModel::where(['id' => $product->id])->get())], 201);
     }
 
     /**
@@ -94,11 +106,11 @@ class ProductController extends Controller
     public function show($id)
     {
 
-        $product = ProductModel::where(['id' => $id])->get();
+        $product = ProductModel::where(['id' => $id])->first();
         if(is_null($product)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
         }
-        return response()->json(['status' => 1, 'data' => ProductResource::collection($product)], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => ProductResource::collection($product)], 201);
     }
 
     /**
@@ -121,13 +133,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = ProductModel::where(['id' => $id]);
+        $product = ProductModel::where(['id' => $id])->first();
         if(is_null($product)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
         }
         $product->update($request->all());
 
-        return response()->json(['status' => 1, 'data' =>  ProductResource::collection(ProductModel::where(['id' => $id])->get())], 200);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' =>  ProductResource::collection(ProductModel::where(['id' => $id])->get())], 200);
     }
 
     /**
@@ -140,10 +152,10 @@ class ProductController extends Controller
     {
         $product = ProductModel::where(['id' => $id])->first();
         if(is_null($product)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
         }
         $product->delete();
 
-        return response()->json(['status' => 1, 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 404);
     }
 }
