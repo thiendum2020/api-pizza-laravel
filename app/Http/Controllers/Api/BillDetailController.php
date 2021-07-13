@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 
 use App\Models\BillDetailModel;
 use App\Http\Resources\BillDetailResource;
+use App\Models\BillModel;
 
 class BillDetailController extends Controller
 {
@@ -28,9 +29,17 @@ class BillDetailController extends Controller
 
     public function getDetailBillByBillId($billid)
     {
-        $bill_detail = BillDetailModel::where(['bill_id' => $billid])->get()->sortDesc();
+        $bill = BillModel::where(['id' => $billid])->first();
+        if(is_null($bill)){
+            return response()->json(['status' => 0, 'msg'=>'Bill not found!', 'data'=>null], 404);
+        }
 
-        return response()->json(['status' => 1, 'data' => BillDetailResource::collection($bill_detail)]);
+        $bill_detail = BillDetailModel::where(['bill_id' => $billid])->get()->sortDesc();
+        if(count($bill_detail)==0){
+            return response()->json(['status' => 2, 'msg'=>'Bill details is empty!', 'data'=>null], 204);
+        }
+
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillDetailResource::collection($bill_detail)]);
     }
     /**
      * Show the form for creating a new resource.
@@ -52,7 +61,7 @@ class BillDetailController extends Controller
     {
         $bill_detail = BillDetailModel::create($request->all());
 
-        return response()->json(['status' => 1, 'data' => BillDetailResource::collection(BillDetailModel::where(['id' => $bill_detail->id])->get())], 201);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillDetailResource::collection(BillDetailModel::where(['id' => $bill_detail->id])->get())], 201);
     }
 
     /**
@@ -63,7 +72,7 @@ class BillDetailController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -88,11 +97,11 @@ class BillDetailController extends Controller
     {
         $bill_detail = BillDetailModel::where(['id' => $id]);
         if(is_null($bill_detail)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Bill details not found!', 'data'=>null], 404);
         }
         $bill_detail->update($request->all());
 
-        return response()->json(['status' => 1, 'data' => BillDetailResource::collection(BillDetailModel::where(['id' => $id])->get())], 200);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillDetailResource::collection(BillDetailModel::where(['id' => $id])->get())], 200);
     }
 
     /**
@@ -105,11 +114,11 @@ class BillDetailController extends Controller
     {
         $bill_detail = BillDetailModel::where(['id' => $id])->first();
         if(is_null($bill_detail)){
-            return response()->json(["message"=>"Record not found!"], 404);
+            return response()->json(['status' => 0, 'msg'=>'Bill details not found!', 'data'=>null], 404);
         }
         $bill_detail->delete();
 
-        return response()->json(['status' => 1, 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 404);
     }
- 
+
 }
