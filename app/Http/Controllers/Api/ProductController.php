@@ -57,6 +57,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+         $rules = [
+            'name' => 'required',
+            'price' => 'required|min:1',
+            'type_id' => 'required',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()){
+            return response()->json(['status'=>2, 'msg'=>$validator->errors(), 'data' => null], 400);
+        }
+
         $product = ProductModel::create($request->all());
         $file = $request->file('image');
         $resource = fopen($file, "r") or die("File upload Problems");
@@ -79,18 +91,6 @@ class ProductController extends Controller
             ]
         ]);
         $img_link = json_decode($imgur_response->getBody())->data->link;
-
-        $rules = [
-            'name' => 'required',
-            'price' => 'required|min:1',
-            'type_id' => 'required',
-
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails()){
-            return response()->json(['status'=>2, 'msg'=>$validator->errors(), 'data' => null], 400);
-        }
 
         ProductModel::where(['id' => $product->id])->update(['image' => $img_link]);
 
