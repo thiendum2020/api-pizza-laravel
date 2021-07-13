@@ -50,7 +50,7 @@ class UserController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()){
-            return response()->json(['status'=>0, 'msg'=>$validator->errors(), 'data' => null], 400);
+            return response()->json(['status'=>0, 'msg'=>errors(), 'data' => null], 400);
         }
         $user = UserModel::create($request->all());
         return response()->json(['status' => 1, 'data' => UserResource::collection(UserModel::where(['id' => $user->id])->get())], 201);
