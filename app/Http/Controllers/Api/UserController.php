@@ -98,7 +98,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return response()->json(['status' => 1, 'msg'=>'success', UserResource::collection(UserModel::where(['id' => $id])->get())], 200);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data'=>UserResource::collection(UserModel::where(['id' => $id])->get())], 200);
     }
 
     /**
