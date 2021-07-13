@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         $user = UserModel::all()->sortDesc();
         if(is_null($user)){
-            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg' => 'success','data' => UserResource::collection($user)], 200);
     }
@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $user = UserModel::where(['id' => $id])->first();
         if(is_null($user)){
-            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data'=>$user->toArray()], 201);
     }
@@ -93,7 +93,7 @@ class UserController extends Controller
     {
         $user = UserModel::where(['id' => $id])->first();
         if(is_null($user)){
-            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
         }
 
         $user->update($request->all());
@@ -111,7 +111,7 @@ class UserController extends Controller
     {
         $user = UserModel::where('id', $id)->first();
         if(is_null($user)){
-            return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'User not found!', 'data'=>null], 404);
         }else{
             $user->delete();
         }

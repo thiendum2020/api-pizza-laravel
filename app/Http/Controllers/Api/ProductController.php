@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $product = ProductModel::all()->sortDesc();
         if(is_null($product)){
-            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => ProductResource::collection($product)]);
 
@@ -36,7 +36,7 @@ class ProductController extends Controller
     {
         $product = ProductModel::where(['type_id' => $typeid])->get()->sortDesc();
         if(is_null($product)){
-            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => ProductResource::collection($product)]);
     }
@@ -109,7 +109,7 @@ class ProductController extends Controller
 
         $product = ProductModel::where(['id' => $id])->first();
         if(is_null($product)){
-            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => $product->toArray()], 201);
     }
@@ -136,7 +136,7 @@ class ProductController extends Controller
     {
         $product = ProductModel::where(['id' => $id])->first();
         if(is_null($product)){
-            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
 
         $product->update($request->all());
@@ -154,7 +154,7 @@ class ProductController extends Controller
     {
         $product = ProductModel::where(['id' => $id])->first();
         if(is_null($product)){
-            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+            return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
         $product->delete();
 
