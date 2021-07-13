@@ -23,16 +23,21 @@ class ProductController extends Controller
     public function index()
     {
         $product = ProductModel::all()->sortDesc();
-        return response()->json(['status' => 1, 'data' => ProductResource::collection($product)]);
+        if(is_null($product)){
+            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+        }
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => ProductResource::collection($product)]);
 
     }
 
 
     public function getProductByTypeId($typeid)
     {
-        $product = ProductModel::where(['type_id' => $typeid])->get()->sortDesc();
-
-        return response()->json(['status' => 1, 'data' => ProductResource::collection($product)]);
+        $product = ProductModel::where(['type_id' => $typeid])->sortDesc();
+        if(is_null($product)){
+            return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
+        }
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => ProductResource::collection($product)]);
     }
     /**
      * Show the form for creating a new resource.

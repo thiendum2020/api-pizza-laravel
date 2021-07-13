@@ -92,7 +92,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = UserModel::where(['id' => $id])->first();
-         if(is_null($user)){
+        if(is_null($user)){
             return response()->json(['status' => 0, 'msg'=>'User is empty!', 'data'=>null], 404);
         }
         $user->update($request->all());
