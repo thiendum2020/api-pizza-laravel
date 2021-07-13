@@ -59,6 +59,11 @@ class BillDetailController extends Controller
      */
     public function store(Request $request)
     {
+        $bill = BillModel::where(['id' => $billid])->first();
+        if(is_null($bill)){
+            return response()->json(['status' => 0, 'msg'=>'Bill not found!', 'data'=>null], 404);
+        }
+
         $bill_detail = BillDetailModel::create($request->all());
 
         return response()->json(['status' => 1, 'msg'=>'success', 'data' => BillDetailResource::collection(BillDetailModel::where(['id' => $bill_detail->id])->get())], 201);
@@ -118,7 +123,7 @@ class BillDetailController extends Controller
         }
         $bill_detail->delete();
 
-        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 200);
     }
 
 }

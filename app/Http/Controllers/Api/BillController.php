@@ -134,7 +134,7 @@ class BillController extends Controller
         }
         $bill->delete();
 
-        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 200);
     }
 
 

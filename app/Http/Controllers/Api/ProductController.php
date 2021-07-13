@@ -158,6 +158,6 @@ class ProductController extends Controller
         }
         $product->delete();
 
-        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 404);
+        return response()->json(['status' => 1, 'msg'=>'success', 'data' => null], 200);
     }
 }
