@@ -33,7 +33,7 @@ class ProductController extends Controller
 
     public function getProductByTypeId($typeid)
     {
-        $product = ProductModel::where(['type_id' => $typeid])->sortDesc();
+        $product = ProductModel::where(['type_id' => $typeid])->get()->sortDesc();
         if(is_null($product)){
             return response()->json(['status' => 0, 'msg'=>'Product is empty!', 'data'=>null], 404);
         }
