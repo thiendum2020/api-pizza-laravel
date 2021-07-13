@@ -59,10 +59,6 @@ class BillDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $bill = BillModel::where(['id' => $billid])->first();
-        if(is_null($bill)){
-            return response()->json(['status' => 0, 'msg'=>'Bill not found!', 'data'=>null], 404);
-        }
 
         $bill_detail = BillDetailModel::create($request->all());
 
