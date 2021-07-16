@@ -138,7 +138,17 @@ class ProductController extends Controller
         if(is_null($product)){
             return response()->json(['status' => 0, 'msg'=>'Product not found!', 'data'=>null], 404);
         }
+        $rules = [
+            'name' => 'required',
+            'price' => 'required|numeric|gt:0',
+            'type_id' => 'required',
 
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()){
+            return response()->json(['status'=>2, 'msg'=>$validator->errors(), 'data' => null], 400);
+        }
         $product->update($request->all());
 
         return response()->json(['status' => 1, 'msg'=>'success', 'data' =>  ProductResource::collection(ProductModel::where(['id' => $id])->get())], 200);
