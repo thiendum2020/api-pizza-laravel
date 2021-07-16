@@ -60,7 +60,7 @@ class ProductController extends Controller
     {
         $rules = [
             'name' => 'required|unique:products',
-            'price' => 'required|min:1',
+            'price' => 'required|numeric|gt:0',
             'type_id' => 'required',
 
         ];
